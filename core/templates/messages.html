@@ -1,0 +1,14 @@
+{% for message in messages %}
+<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+    <div class="d-flex align-items-center">
+        <svg class="bi bi-check-circle-fill text-success mr-3" width="24" height="24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+            <path d="M16 8a8 8 0 1 1-16 0 8 8 0 0 1 16 0zM7.96 10.535 12.534 5.96a.75.75 0 1 0-1.06-1.06L7.5 8.44l-2.474-2.475a.75.75 0 0 0-1.06 1.06l3 3a.75.75 0 0 0 1.06 0z"/>
+        </svg>
+        <div>
+            <p class="font-weight-bold mb-1">Success!</p>
+            <p class="mb-0">{{ message }}</p>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+{% endfor %}

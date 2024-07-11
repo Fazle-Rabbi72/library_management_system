@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block head_title %}Book Details{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="card bg-light d-flex flex-column flex-md-row justify-content-center align-items-center rounded-3xl shadow-xl py-8 px-4">
+        <div class="col-md-5 p-0 mb-4 mb-md-0">
+            <figure class="w-100">
+                <img class="img-fluid rounded-3xl" src="{{ books.image.url }}" alt="{{ books.title }}" />
+            </figure>
+        </div>
+        <div class="col-md-7">
+            <div class="card-body">
+                <h2 class="mb-3 text-4xl font-bold text-dark">
+                    {{ books.title }}
+                </h2>
+                <p class="mb-3 text-lg"><b>Category:</b> <span class="font-medium">{{ books.categories }}</span></p>
+                <p class="mb-3 text-lg"><b>Borrow Price:</b> <span class="font-medium">${{ books.price }}</span></p>
+                <p class="mb-3 text-lg"><b>Description:</b> <span class="font-normal">{{ books.description }}</span></p>
+                <div class="card-actions">
+                    {% if not has_borrow %}
+                        {% if books.id %}
+                        <form action="{% url 'create_borrow' books.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary">Borrow</button>
+                        </form>
+                        {% endif %}
+                    {% else %}
+                        <button type="button" class="btn btn-secondary" disabled>Borrowed</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt-5">
+    <div class="bg-light p-4 rounded-3xl shadow-lg">
+        <h5 class="text-2xl text-center text-dark">Total Reviews: {{ reviews|length }}</h5>
+        <div class="mt-4">
+            {% for review in reviews %}
+            <div class="p-4 rounded-3xl mb-3" style="background-color: {% cycle 'lightblue' 'lightpink' 'lightgreen' 'lightyellow' %};">
+                <p class="text-dark font-bold mb-1">{{ review.name }} <span class="text-muted">{{ review.created_on }}</span></p>
+                <p class="text-dark mt-2">{{ review.body }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div class="container mt-5">
+        <div class="bg-light mt-5 p-4 rounded-3xl shadow-lg">
+            <h1 class="text-3xl text-center text-dark mb-4">Add Review</h1>
+            <form method="post">
+                {% csrf_token %}
+                {% for field in review_form %}
+                <div class="mb-3">
+                    {% if field.name == 'body' %}
+                    <label class="form-label text-dark font-bold mb-2" for="{{ field.id_for_label }}">
+                        Give Your Review:
+                    </label>
+                    {% else %}
+                    <label class="form-label text-dark font-bold" for="{{ field.id_for_label }}">
+                        {{ field.label }}
+                    </label>
+                    {% endif %}
+                    {{ field }}
+                    {% if field.errors %}
+                    {% for error in field.errors %}
+                    <p class="text-danger small mt-1">{{ error }}</p>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary rounded-3xl px-5 py-2">Submit Review</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+{% endblock %}

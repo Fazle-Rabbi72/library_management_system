@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load static %}
+{% block head_title %}Profile{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Profile Card Section -->
+    <div class="card bg-light d-flex flex-column justify-content-between align-items-center rounded-3xl mx-10 shadow-xl py-5 px-5">
+        <div class="d-flex flex-column align-items-center">
+            {% if user_account.gender == 'Female' %}
+            <figure class="rounded-circle mb-3">
+                <img src="https://png.pngtree.com/png-clipart/20220904/ourmid/pngtree-muslim-girl-using-hijab-png-image_6137399.png"
+                    alt="Profile Picture" class="img-fluid rounded-circle" style="width: 150px; height: 150px;">
+            </figure>
+            {% else %}
+            <figure class="rounded-circle mb-3">
+                <img src="https://png.pngtree.com/png-vector/20221203/ourmid/pngtree-cartoon-style-male-user-profile-icon-vector-illustraton-png-image_6489287.png"
+                    alt="Profile Picture" class="img-fluid rounded-circle" style="width: 150px; height: 150px;">
+            </figure>
+            {% endif %}
+            <div class="text-center">
+                <h2 class="mb-3 text-4xl font-bold text-dark">
+                    {{ user_account.user.username }}
+                </h2>
+                <p class="mb-3 text-lg"><b>Name:</b> {{ user_account.user.first_name }} {{ user_account.user.last_name }}</p>
+                <p class="mb-3 text-lg"><b>Email:</b> {{ user_account.user.email }}</p>
+                <p class="mb-3 text-lg"><b>Balance:</b> $ {{ user_account.balance }}</p>
+                <p class="mb-3 text-lg"><b>Birth Date:</b> {{ user_account.birth_date }}</p>
+                <p class="mb-3 text-lg"><b>Gender:</b> {{ user_account.gender }}</p>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center mb-3 mt-4">
+            <a href="{% url 'update' %}" class="btn btn-outline-danger me-2">Update Your Profile</a>
+            <a href="{% url 'change_pass' %}" class="btn btn-outline-danger">Change Your Password</a>
+        </div>
+    </div>
+
+    <!-- Borrowing History Section -->
+    <div class="m-10 py-3 px-4 bg-light rounded-xl shadow-md">
+        <h1 class="font-bold text-3xl text-center pb-5 pt-2 text-dark">Borrowing History</h1>
+        <hr />
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover">
+                <thead class="bg-primary text-white">
+                    <tr>
+                        <th>Book Number</th>
+                        <th>Book Title</th>
+                        <th>Borrowing Date</th>
+                        <th>Borrow Price</th>
+                        <th>Balance After Borrow</th>
+                        <th>Return Book</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for borrow in borrows %}
+                    <tr>
+                        <td>
+                        {{ borrow.book.id }}  
+                        </td>
+                        <td>{{ borrow.book.title }}</td>
+                        <td>{{ borrow.created_on }}</td>
+                        <td>$ {{ borrow.book.price }}</td>
+                        <td>$ {{ borrow.balance_after_borrow }}</td>
+                        <td>
+                            {% if borrow.returned %}
+                                Returned
+                            {% else %}
+                                <form action="{% url 'return_book' borrow.pk %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-outline-primary btn-sm rounded-xl btn-danger text-white">Return Book</button>
+                                </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    <tr class="bg-dark text-white">
+                        <th class="text-end" colspan="5">Current Balance</th>
+                        <td class="text-start">$ {{ user_account.balance|floatformat:2|intcomma }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

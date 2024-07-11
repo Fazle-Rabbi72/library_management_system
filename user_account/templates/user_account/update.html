@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+            <div class="alert alert-danger mt-2" role="alert">
+                <strong>Error!</strong> {{ error }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="container my-5">
+        <h1 class="fw-bold text-center pb-5">Update Profile Information</h1>
+        <div class="w-100 mt-10">
+            <form method="post" class="bg-white shadow rounded p-4">
+                {% csrf_token %}
+                {% for hidden_field in form.hidden_fields %}
+                    {{ hidden_field.errors }} {{ hidden_field }}
+                {% endfor %}
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="{{ form.first_name.id_for_label }}" class="form-label">{{ form.first_name.label }}</label>
+                        {{ form.first_name }}
+                        {% if form.first_name.errors %}
+                            {% for error in form.first_name.errors %}
+                                <div class="text-danger">{{ error }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="{{ form.last_name.id_for_label }}" class="form-label">{{ form.last_name.label }}</label>
+                        {{ form.last_name }}
+                        {% if form.last_name.errors %}
+                            {% for error in form.last_name.errors %}
+                                <div class="text-danger">{{ error }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label for="{{ form.email.id_for_label }}" class="form-label">{{ form.email.label }}</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            {% for error in form.email.errors %}
+                                <div class="text-danger">{{ error }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="{{ form.gender.id_for_label }}" class="form-label">{{ form.gender.label }}</label>
+                        {{ form.gender }}
+                        {% if form.gender.errors %}
+                            {% for error in form.gender.errors %}
+                                <div class="text-danger">{{ error }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="{{ form.birth_date.id_for_label }}" class="form-label">{{ form.birth_date.label }}</label>
+                        {{ form.birth_date }}
+                        {% if form.birth_date.errors %}
+                            {% for error in form.birth_date.errors %}
+                                <div class="text-danger">{{ error }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

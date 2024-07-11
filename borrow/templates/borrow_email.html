@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borrowing Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            color: #000000;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #cccccc;
+        }
+
+        .header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #cccccc;
+        }
+
+        .content {
+            padding: 20px 0;
+        }
+
+        .content p {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer {
+            text-align: center;
+            padding-top: 10px;
+            border-top: 1px solid #cccccc;
+            font-size: 12px;
+            color: #666666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Library Management System</h1>
+        </div>
+        <div class="content">
+            <h2>Borrowing Confirmation</h2>
+            <p>Dear {{ user_account.user.first_name }} {{ user_account.user.last_name }},</p>
+            <p>You have successfully borrowed the following book:</p>
+            <ul>
+                <li>Title: {{ borrow.book.title }}</li>
+                <li>Price: ${{ borrow.book.price }}</li>
+            </ul>
+            <p>Please return the book by the due date.</p>
+            <p>If you have any questions, please contact our support team.</p>
+            <p><a href="{{ support_url }}">Contact Support</a></p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2024 Library Management System. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block head_title %}Library Management System{% endblock %} 
+{% block content %}
+<h1 class="text-center my-5">Book Gallary</h1>
+    <div class="container">
+        <div class="row">
+            <!-- Categories Sidebar -->
+            <div class="col-md-3 my-10 bg-light p-4 rounded-3xl shadow-lg h-100">
+                <h2 class="text-2xl font-bold text-dark mb-4">Categories</h2>
+                <ul class="list-group">
+                    {% for category in categories %}
+                    <li class="list-group-item">
+                        <a href="{% url 'category_slug' category.slug %}" class="text-dark text-decoration-none">
+                            {{ category.name }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Book Cards Section -->
+            <div class="col-md-9 mt-10 ">
+                <div class="w-full bg-light p-4 mb-5 rounded-3xl shadow-lg">
+                    <p class="text-center text-2xl font-bold text-dark">Number of Books: {{ books|length }}</p>
+                </div>
+                <div class="row">
+                    {% for book in books %}
+                    <!-- Book Card -->
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img src="{{ book.image.url }}" class="card-img-top h-50" alt="{{ book.title }}">
+                            <div class="card-body" style="height:30px">
+                                <h5 class="card-title">{{ book.title }}</h5>
+                                <p class="card-text">{{ book.description|truncatewords:10 }}...</p><p class="mb-3 text-lg"><b>Category:</b> <span class="font-medium">{{ book.categories }}</span></p>
+                                <h6 class="card-subtitle mb-2 "><b>Price:</b> ${{ book.price }}</h6>
+                                <a href="{% url 'book_detail' book.id %}" class="btn btn-primary">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 
