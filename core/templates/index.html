@@ -31,7 +31,7 @@
                     <div class="col-md-4 mb-4">
                         <div class="card h-100">
                             <img src="{{ book.image.url }}" class="card-img-top h-50" alt="{{ book.title }}">
-                            <div class="card-body" style="height:30px">
+                            <div class="card-body">
                                 <h5 class="card-title">{{ book.title }}</h5>
                                 <p class="card-text">{{ book.description|truncatewords:10 }}...</p><p class="mb-3 text-lg"><b>Category:</b> <span class="font-medium">{{ book.categories }}</span></p>
                                 <h6 class="card-subtitle mb-2 "><b>Price:</b> ${{ book.price }}</h6>
